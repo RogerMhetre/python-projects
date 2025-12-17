@@ -1,5 +1,5 @@
 import sys 
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QDesktopWidget
 from PyQt5.QtCore import QTimer, QTime, Qt
 from PyQt5.QtGui import QFont
 
@@ -11,8 +11,8 @@ class DigitalClock(QWidget):
         self.initUI()
 
     def initUI(self): 
-        self.setWindowTitle("Digital Clock")
-        self.setGeometry(600, 300, 300, 100)
+        self.setWindowTitle("Digital Clock") 
+        self.resize(300, 100)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.time_label)
@@ -36,6 +36,17 @@ class DigitalClock(QWidget):
     def update_time(self):
         current_time = QTime.currentTime().toString("hh:mm:ss AP")
         self.time_label.setText(current_time)
+
+    def center_window(self): 
+        qr = self.frameGeometry() 
+        cp = QDesktopWidget().availableGeometry().center() 
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def showEvent(self, event):
+        self.center_window()
+        super().showEvent(event)
+
 
 def main(): 
     app = QApplication(sys.argv) 
