@@ -43,7 +43,7 @@ class DigitalClock(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    def showEvent(self, event):
+    def showEvent(self, event):  #Without this central_window function will not work
         self.center_window()
         super().showEvent(event)
 
