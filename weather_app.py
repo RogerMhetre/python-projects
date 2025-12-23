@@ -18,6 +18,8 @@ class WeatherApp(QWidget):
 
     def initUI(self): 
         self.setWindowTitle("Weather App")
+        self.adjustSize() 
+        self.setMinimumSize(350, 300)
 
         vbox = QVBoxLayout()
 
@@ -45,7 +47,7 @@ class WeatherApp(QWidget):
 
         self.setStyleSheet("""
             QLabel, QPushButton{
-                    font-family: VT323;
+                    font-family: Times New Roman;
             }
             QLabel#city_label{
                 font-size: 40px;
@@ -58,10 +60,10 @@ class WeatherApp(QWidget):
                 font-weight: bold;
             }
             QLabel#temperature_label{
-                font-size: 50px;
+                font-size: 30px;
             }
             QLabel#emoji_label{
-                font-size: 100px;
+                font-size: 45px;
                 font-family: Segoe UI emoji;    
             }
             QLabel#description_label{
@@ -72,7 +74,7 @@ class WeatherApp(QWidget):
         self.get_weather_button.clicked.connect(self.get_weather)
 
     def get_weather(self):
-        api_key = "" #get your own Api key
+        api_key = "9f17be9d679d17fdfda9a1f344afd447"
         city = self.city_input.text()
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
 
@@ -118,6 +120,8 @@ class WeatherApp(QWidget):
     def display_error(self, message): 
         self.temperature_label.setStyleSheet("font-size: 30px;")
         self.temperature_label.setText(message)
+        self.emoji_label.clear()
+        self.description_label.clear()
 
     def display_weather(self, data): 
         self.temperature_label.setStyleSheet("font-size: 50px;")
@@ -133,7 +137,8 @@ class WeatherApp(QWidget):
         weather_id = data["weather"][0]["id"]
         self.emoji_label.setText(self.get_weather_emoji(weather_id))
 
-    def get_weather_emoji(self, weather_id): 
+    @staticmethod
+    def get_weather_emoji(weather_id): 
         if 200 <= weather_id <= 232:
             return "⛈️"   # Thunderstorm
         elif 300 <= weather_id <= 321:
@@ -142,14 +147,22 @@ class WeatherApp(QWidget):
             return "🌧️"   # Rain
         elif 600 <= weather_id <= 622:
             return "❄️"   # Snow
-        elif 701 <= weather_id <= 781:
-            return "🌫️"   # Fog / Mist
-        elif weather_id == 800:
-            return "☀️"   # Clear sky
-        elif 801 <= weather_id <= 804:
-            return "☁️"   # Clouds
-        else:
-            return "🌍"
+        elif 701 <= weather_id <= 741:
+            return "🌫️"
+        elif 751 <= weather_id <= 761: 
+            return "⛱️"
+        elif weather_id == 762: 
+            return "🌋"
+        elif weather_id == 771: 
+            return "💨"
+        elif weather_id == 781: 
+            return "🌪️"
+        elif weather_id == 800: 
+            return "☀️"
+        elif 801 <= weather_id <= 804: 
+            return "☁️"
+        else: 
+            return ""
 
 
     def center_window(self): 
