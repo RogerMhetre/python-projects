@@ -131,10 +131,26 @@ class WeatherApp(QWidget):
         self.description_label.setText(weather_description)
 
         weather_id = data["weather"][0]["id"]
-        self.emoji_label.setText(self.get_weather_emoji())
+        self.emoji_label.setText(self.get_weather_emoji(weather_id))
 
-    def get_weather_emoji(weather_id): 
-            pass
+    def get_weather_emoji(self, weather_id): 
+        if 200 <= weather_id <= 232:
+            return "⛈️"   # Thunderstorm
+        elif 300 <= weather_id <= 321:
+            return "🌦️"   # Drizzle
+        elif 500 <= weather_id <= 531:
+            return "🌧️"   # Rain
+        elif 600 <= weather_id <= 622:
+            return "❄️"   # Snow
+        elif 701 <= weather_id <= 781:
+            return "🌫️"   # Fog / Mist
+        elif weather_id == 800:
+            return "☀️"   # Clear sky
+        elif 801 <= weather_id <= 804:
+            return "☁️"   # Clouds
+        else:
+            return "🌍"
+
 
     def center_window(self): 
         qr = self.frameGeometry() 
